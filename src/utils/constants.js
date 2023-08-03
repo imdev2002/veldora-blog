@@ -1,0 +1,14 @@
+export const theme = {
+  primary: "#2980b9",
+  secondary: "#00b8ff",
+  tertiary: "#0000fe",
+  grayLight: "#E7ECF3",
+  grayDark: "#292D32",
+  headerHeight: "80px",
+};
+
+export const postStatus = {
+  APPROVED: 1,
+  PENDING: 2,
+  REJECTED: 3,
+};
