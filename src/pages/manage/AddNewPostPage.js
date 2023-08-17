@@ -4,12 +4,16 @@ import { Input } from "components/input";
 import ImageUpload from "components/input/ImageUpload";
 import { Label } from "components/label";
 import Heading from "components/layout/Heading";
+import TagPicker from "components/tagpicker/TagPicker";
 import { Textarea } from "components/textarea";
 import PostCategory from "module/post/PostCategory";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { postStatus } from "utils/constants";
+import Select from "react-select";
+import { Button } from "components/button";
+import slugify from "slugify";
 
 const AddNewPostPageStyles = styled.div`
   .field-format {
@@ -22,11 +26,19 @@ const AddNewPostPageStyles = styled.div`
   }
 `;
 
+const tags = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
+
 const AddNewPostPage = () => {
+  const [optionValues, setOptionValues] = useState([]);
   const {
     control,
     watch,
     setValue,
+    handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: "onChange",
@@ -38,10 +50,15 @@ const AddNewPostPage = () => {
     },
   });
   const watchStatus = watch("status");
+  const uploadPostHandler = (values) => {
+    values.slug = slugify(values.slug || values.title);
+    console.log(values);
+  };
+  console.log(optionValues);
   return (
     <AddNewPostPageStyles>
       <Heading>Add new post</Heading>
-      <form>
+      <form autoComplete="off" onSubmit={handleSubmit(uploadPostHandler)}>
         <div className="field-format">
           <Field>
             <Label htmlFor="title">Title</Label>
@@ -98,14 +115,18 @@ const AddNewPostPage = () => {
           </Field>
           <Field>
             <Label>Category</Label>
-            <div>
-              <PostCategory>Active</PostCategory>
-              <PostCategory>Gaming</PostCategory>
-              <PostCategory>Healthy</PostCategory>
-              <PostCategory>Business</PostCategory>
-            </div>
+            <Select
+              isMulti
+              name="colors"
+              options={tags}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={setOptionValues}
+              value={optionValues}
+            />
           </Field>
         </div>
+        <Button type="submit">Create Post</Button>
       </form>
     </AddNewPostPageStyles>
   );

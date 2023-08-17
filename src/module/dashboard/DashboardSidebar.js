@@ -5,7 +5,7 @@ import {
   IconProfile,
   IconTags,
 } from "components/icons";
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "utils/constants";
@@ -53,22 +53,22 @@ const iconColor = theme.grayDark;
 const itemLinks = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/manage/dashboard",
     icon: <IconDashboard size={iconSize} color={iconColor}></IconDashboard>,
   },
   {
     title: "Post",
-    url: "#",
+    url: "/manage/add-post",
     icon: <IconBook size={iconSize} color={iconColor}></IconBook>,
   },
   {
     title: "Category",
-    url: "#",
+    url: "/manage/category",
     icon: <IconTags size={iconSize} color={iconColor}></IconTags>,
   },
   {
     title: "Profile",
-    url: "#",
+    url: "/manage/profile",
     icon: <IconProfile size={iconSize} color={iconColor}></IconProfile>,
   },
   {
@@ -83,11 +83,11 @@ const DashboardSidebar = () => {
     <DashboardSidebarStyles className="sidebar">
       {itemLinks.map((item) => (
         <NavLink
+          to={item.url}
           className={({ isActive }) =>
             isActive ? "sidebar__link sidebar__link--active" : "sidebar__link"
           }
           key={v4()}
-          to={item.url}
         >
           <span className="sidebar__link-icon">{item.icon}</span>
           <span className="sidebar__link-title">{item.title}</span>
