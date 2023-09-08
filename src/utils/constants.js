@@ -4,7 +4,7 @@ export const theme = {
   tertiary: "#0000fe",
   grayLight: "#E7ECF3",
   grayDark: "#292D32",
-  headerHeight: "80px",
+  headerHeight: "72px",
 };
 
 export const postStatus = {

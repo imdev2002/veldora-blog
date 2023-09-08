@@ -13,7 +13,7 @@ const HomePage = () => {
     <Layout>
       <HomeFeature></HomeFeature>
       <HomeSection>
-        <Heading>Feature</Heading>
+        <Heading>Random Posts</Heading>
         <PostItem></PostItem>
       </HomeSection>
       <div
@@ -23,12 +23,12 @@ const HomePage = () => {
         }}
       >
         <HomeSection>
-          <Heading>Feature</Heading>
+          <Heading>Công nghệ</Heading>
           <PostsByCategory></PostsByCategory>
         </HomeSection>
       </div>
       <HomeSection>
-        <Heading>Feature</Heading>
+        <Heading>Recent Posts</Heading>
         <PostItem></PostItem>
       </HomeSection>
     </Layout>

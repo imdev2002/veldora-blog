@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { LoadingSpinner } from "components/loading";
@@ -27,12 +27,12 @@ const ImageUploadStyles = styled.label`
       font-weight: 500;
     }
   }
-  .input__image--progress {
+  .input__image-progress {
     position: absolute;
     left: 0;
     bottom: 0;
     width: 20px;
-    height: 2px;
+    height: 4px;
     background: ${(props) => props.theme.secondary};
     transition: all 0.25s ease-in-out;
   }
@@ -45,19 +45,18 @@ const ImageUploadStyles = styled.label`
     button {
       position: absolute;
       z-index: 2;
-      visibility: hidden;
-      width: 64px;
-      height: 64px;
-      background: white;
-      border-radius: 100rem;
-      opacity: 0;
+      width: 40px;
+      height: 40px;
+      background: #e74c3c;
+      border-radius: 4px;
       cursor: pointer;
+      top: 8px;
+      right: 8px;
     }
   }
-  &:hover .input__image--uploaded button {
-    opacity: 1;
-    visibility: visible;
+  & .input__image--uploaded button:hover {
     transition: all 0.25s ease-in-out;
+    background: #c0392b;
   }
 `;
 
@@ -88,17 +87,13 @@ const ImageUpload = (props) => {
       {image && (
         <div className="input__image--uploaded">
           <img src={image} alt="" />
-          <button
-            type="button"
-            // className="absolute z-10 flex items-center justify-center invisible w-16 h-16 text-red-500 transition-all bg-white rounded-full opacity-0 cursor-pointer group-hover:opacity-100 group-hover:visible"
-            onClick={handleDeleteImage}
-          >
+          <button type="button" onClick={handleDeleteImage}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-6 h-6"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
+              stroke="white"
               strokeWidth="2"
             >
               <path
@@ -112,7 +107,7 @@ const ImageUpload = (props) => {
       )}
       {!image && (
         <div
-          className="input__image--progress"
+          className="input__image-progress"
           style={{
             width: `${Math.ceil(progress)}%`,
           }}

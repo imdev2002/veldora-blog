@@ -10,9 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "firebase-app/firebase-config";
 import { toast } from "react-toastify";
-import { addDoc, collection } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 import LayoutAuthentication from "layout/LayoutAuthentication";
+import slugify from "slugify";
 
 const schema = yup.object({
   fullname: yup.string().required("Please enter your fullname"),
@@ -45,6 +46,12 @@ const RegisterPage = () => {
       fullname: values.fullname,
       email: values.email,
       password: values.password,
+    });
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
+      fullname: values.fullname,
+      email: values.email,
+      password: values.password,
+      username: slugify(values.fullname, { lower: true }),
     });
     navigate("/");
   };
@@ -88,6 +95,12 @@ const RegisterPage = () => {
             error={errors?.password?.message}
           ></InputPassword>
         </Field>
+        <div className="have-account">
+          Do you already have an account?
+          <Link to="/login" style={{}}>
+            Login now
+          </Link>
+        </div>
         <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
           Sign Up
         </Button>

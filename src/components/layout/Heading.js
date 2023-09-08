@@ -8,8 +8,8 @@ const HeadingSyles = styled.h2`
   &::before {
     content: "";
     position: absolute;
-    bottom: -8px;
-    width: 28px;
+    bottom: -6px;
+    width: 36px;
     height: 4px;
     border-radius: 100rem;
     background-color: ${(props) => props.theme.primary};

@@ -34,7 +34,9 @@ const PostMeta = ({ color = "black", auth, date = "Dec 24, 2016" }) => {
           src="https://jellywp.com/theme/disto/demo/wp-content/uploads/2016/12/felipe-sagn-1434616-unsplash-780x450.jpg"
           alt=""
         />
-        <span className="post-auth-name">im_dev2002</span>
+        <span className="post-auth-name">
+          {auth?.fullname ? auth.fullname : "im_dev2002"}
+        </span>
       </div>
 
       <div className="post-date">

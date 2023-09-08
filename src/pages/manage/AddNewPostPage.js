@@ -1,19 +1,31 @@
-import { Radio } from "components/checkbox";
+import { Radio, Toggle } from "components/checkbox";
 import { Field, FieldCheckboxes } from "components/field";
 import { Input } from "components/input";
 import ImageUpload from "components/input/ImageUpload";
 import { Label } from "components/label";
 import Heading from "components/layout/Heading";
-import TagPicker from "components/tagpicker/TagPicker";
+// import TagPicker from "components/tagpicker/TagPicker";
 import { Textarea } from "components/textarea";
-import PostCategory from "module/post/PostCategory";
-import React, { useState } from "react";
+// import PostCategory from "module/post/PostCategory";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { postStatus } from "utils/constants";
 import Select from "react-select";
 import { Button } from "components/button";
 import slugify from "slugify";
+import useFirebaseImage from "hooks/useFireBaseImage";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  serverTimestamp,
+  where,
+} from "firebase/firestore";
+import { db } from "firebase-app/firebase-config";
+import { useAuthStore } from "store";
+import { toast } from "react-toastify";
 
 const AddNewPostPageStyles = styled.div`
   .field-format {
@@ -26,19 +38,15 @@ const AddNewPostPageStyles = styled.div`
   }
 `;
 
-const tags = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
 const AddNewPostPage = () => {
-  const [optionValues, setOptionValues] = useState([]);
+  const { user } = useAuthStore((state) => state);
   const {
     control,
     watch,
     setValue,
     handleSubmit,
+    getValues,
+    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: "onChange",
@@ -46,15 +54,83 @@ const AddNewPostPage = () => {
       title: "",
       slug: "",
       status: 2,
-      category: "",
+      categories: [],
+      featured: false,
+      user: {},
     },
   });
+  const [optionValues, setOptionValues] = useState([]);
+  const [categories, setCategories] = useState([]);
   const watchStatus = watch("status");
-  const uploadPostHandler = (values) => {
-    values.slug = slugify(values.slug || values.title);
-    console.log(values);
+  const watchFeatured = watch("featured");
+  const {
+    image,
+    progress,
+    handleSelectImg,
+    handleDeleteImg,
+    handleResetUpload,
+  } = useFirebaseImage(setValue, getValues);
+  useEffect(() => {
+    async function getUserInfo() {
+      if (!user) return;
+      const colRef = collection(db, "users");
+      const q = query(colRef, where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setValue("user", {
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+    }
+    getUserInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const uploadPostHandler = async (values) => {
+    console.log(
+      "🚀 ~ file: AddNewPostPage.js:83 ~ uploadPostHandler ~ values:",
+      values
+    );
+    const categoriesSelected = optionValues.map((category) => category.value);
+    console.log({ ...values, categories: categoriesSelected });
+    const colRef = collection(db, "posts");
+    await addDoc(colRef, {
+      ...values,
+      image,
+      slug: slugify(values.slug || values.title, { lower: true }),
+      status: Number(values.status),
+      categories: categoriesSelected,
+      createdAt: serverTimestamp(),
+    });
+    toast.success("Create new post successfully!");
+    reset({
+      title: "",
+      status: 2,
+      categories: [],
+      featured: false,
+    });
+    handleResetUpload();
+    setOptionValues([]);
   };
-  console.log(optionValues);
+
+  useEffect(() => {
+    async function getCategories() {
+      const categoriesRef = collection(db, "categories");
+      const q = query(categoriesRef, where("status", "==", 1));
+      const querySnapshot = await getDocs(q);
+      let result = [];
+      querySnapshot.forEach((doc) => {
+        result.push({
+          value: doc.id,
+          label: doc.data().name,
+        });
+      });
+      setCategories(result);
+    }
+    getCategories();
+  }, []);
+
+  console.log(categories);
   return (
     <AddNewPostPageStyles>
       <Heading>Add new post</Heading>
@@ -80,7 +156,13 @@ const AddNewPostPage = () => {
           </Field>
           <Field>
             <Label>Thumbnail</Label>
-            <ImageUpload name="image"></ImageUpload>
+            <ImageUpload
+              name="image"
+              progress={progress}
+              image={image}
+              onChange={handleSelectImg}
+              handleDeleteImage={handleDeleteImg}
+            ></ImageUpload>
           </Field>
         </div>
         <div className="field-format">
@@ -116,15 +198,32 @@ const AddNewPostPage = () => {
           <Field>
             <Label>Category</Label>
             <Select
+              control={control}
               isMulti
-              name="colors"
-              options={tags}
+              name="categories"
+              options={categories}
               className="basic-multi-select"
+              placeholder="Select categories..."
               classNamePrefix="select"
               onChange={setOptionValues}
               value={optionValues}
             />
           </Field>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "20px",
+            margin: "12px 0 24px",
+          }}
+        >
+          <Label>Featured Post:</Label>
+          <Toggle
+            on={watchFeatured === true}
+            onClick={() => setValue("featured", !watchFeatured)}
+          ></Toggle>
         </div>
         <Button type="submit">Create Post</Button>
       </form>

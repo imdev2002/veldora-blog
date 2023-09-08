@@ -2,6 +2,7 @@ import { Button } from "components/button";
 import { IconSearch } from "components/icons";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuthStore } from "store";
 import styled from "styled-components";
 import { v4 } from "uuid";
 
@@ -14,6 +15,7 @@ const HeaderStyles = styled.div`
   display: block;
   background: white;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 12px 8px -10px;
+  padding: 0 72px;
   .header-main {
     height: ${(props) => props.theme.headerHeight};
     display: flex;
@@ -80,45 +82,45 @@ const menuItems = [
 ];
 
 const Header = () => {
+  const { user } = useAuthStore((state) => state);
+
   return (
     <HeaderStyles>
-      <div className="container">
-        <div className="header-main">
-          <div className="header-l">
-            <NavLink className="logo" to="/">
-              <img
-                srcSet="/logo.png 2x"
-                alt="FSpade Blog"
-                className="logo-img"
-              />
-              <span className="logo-title">Veldora Blog</span>
-            </NavLink>
-            <ul className="menu">
-              {menuItems.map((item) => (
-                <li key={v4()}>
-                  <NavLink to={item.url}>{item.title}</NavLink>
-                </li>
-              ))}
-            </ul>
+      <div className="header-main">
+        <div className="header-l">
+          <NavLink className="logo" to="/">
+            <img srcSet="/logo.png 2x" alt="FSpade Blog" className="logo-img" />
+            <span className="logo-title">Veldora Blog</span>
+          </NavLink>
+          <ul className="menu">
+            {menuItems.map((item) => (
+              <li key={v4()}>
+                <NavLink to={item.url}>{item.title}</NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="header-r">
+          <div className="search">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Type to search... "
+            />
+            <span className="search-icon">
+              <IconSearch></IconSearch>
+            </span>
           </div>
-          <div className="header-r">
-            <div className="search">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Type to search... "
-              />
-              <span className="search-icon">
-                <IconSearch></IconSearch>
-              </span>
-            </div>
+          {!user ? (
             <Button
               height="40px"
               style={{ minWidth: "80px", fontWeight: "400", fontSize: "16px" }}
             >
               Login
             </Button>
-          </div>
+          ) : (
+            <span>{user?.email}</span>
+          )}
         </div>
       </div>
     </HeaderStyles>

@@ -6,8 +6,18 @@ import HomePage from "pages/HomePage";
 import NotFoundPage from "pages/NotFoundPage";
 import LayoutDashboard from "layout/LayoutDashboard";
 import AddNewPostPage from "pages/manage/AddNewPostPage";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "firebase-app/firebase-config";
+import { useAuthStore } from "store";
 
 function App() {
+  const { setCurrentUser } = useAuthStore((state) => state);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) =>
+      user ? setCurrentUser(user) : setCurrentUser(null)
+    );
+  }, [setCurrentUser]);
   return (
     <div>
       <AuthProvider>

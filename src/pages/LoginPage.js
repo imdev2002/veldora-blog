@@ -10,8 +10,8 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "firebase-app/firebase-config";
-import { useAuth } from "contexts/auth-context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "store";
 
 const schema = yup.object({
   email: yup
@@ -25,7 +25,7 @@ const schema = yup.object({
 });
 
 const LoginPage = () => {
-  const { currentUser } = useAuth();
+  const { user } = useAuthStore((state) => state);
   const navigate = useNavigate();
   const {
     control,
@@ -39,7 +39,7 @@ const LoginPage = () => {
     navigate("/");
   };
   useEffect(() => {
-    if (currentUser?.email) navigate("/");
+    if (user?.email) navigate("/");
   }, []);
   return (
     <LayoutAuthentication>
@@ -70,6 +70,12 @@ const LoginPage = () => {
             error={errors?.password?.message}
           ></InputPassword>
         </Field>
+        <div className="have-account">
+          Do not have an account?
+          <Link to="/login" style={{}}>
+            Login now
+          </Link>
+        </div>
         <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
           Sign Up
         </Button>

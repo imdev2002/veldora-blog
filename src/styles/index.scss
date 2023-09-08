@@ -70,3 +70,15 @@ a {
   width: 1px;
   white-space: nowrap;
 }
+
+.have-account {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  a {
+    text-decoration: underline;
+    color: #2980b9;
+  }
+}

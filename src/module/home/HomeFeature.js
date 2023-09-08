@@ -1,5 +1,13 @@
+import { db } from "firebase-app/firebase-config";
+import {
+  collection,
+  limit,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import PostItemLarge from "module/post/PostItemLarge";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const HomeFeatureStyles = styled.div`
@@ -16,12 +24,33 @@ const HomeFeatureStyles = styled.div`
 `;
 
 const HomeFeature = () => {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const colRef = collection(db, "posts");
+    const q = query(
+      colRef,
+      where("status", "==", 1),
+      where("featured", "==", true),
+      limit(4)
+    );
+    onSnapshot(q, (snapshot) => {
+      let result = [];
+      snapshot.forEach((doc) => {
+        result.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setPosts(result);
+    });
+  }, []);
+  if (posts.length <= 0) return;
+  console.log(posts);
   return (
     <HomeFeatureStyles>
-      <PostItemLarge></PostItemLarge>
-      <PostItemLarge></PostItemLarge>
-      <PostItemLarge></PostItemLarge>
-      <PostItemLarge></PostItemLarge>
+      {posts.map((post) => (
+        <PostItemLarge key={post.id} data={post}></PostItemLarge>
+      ))}
     </HomeFeatureStyles>
   );
 };
