@@ -46,24 +46,6 @@ const HeaderStyles = styled.div`
     column-gap: 20px;
     font-weight: 500;
   }
-  .search {
-    max-width: 240px;
-    position: relative;
-    border: 2px solid ${(props) => props.theme.grayLight};
-    border-radius: 8px;
-    padding: 8px 12px;
-  }
-  .search-input {
-    width: 100%;
-    outline: none;
-    padding-right: 24px;
-  }
-  .search-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
 `;
 
 const menuItems = [

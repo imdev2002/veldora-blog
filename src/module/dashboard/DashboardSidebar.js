@@ -5,6 +5,7 @@ import {
   IconProfile,
   IconTags,
 } from "components/icons";
+import IconCategories from "components/icons/IconCategories";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";

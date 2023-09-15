@@ -10,6 +10,9 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "firebase-app/firebase-config";
 import { useAuthStore } from "store";
+import AddNewCategoryPage from "pages/manage/AddNewCategoryPage";
+import CategoryManagePage from "pages/manage/CategoryManagePage";
+import EditCategoryPage from "pages/manage/EditCategoryPage";
 
 function App() {
   const { setCurrentUser } = useAuthStore((state) => state);
@@ -32,6 +35,18 @@ function App() {
             <Route
               path="/manage/add-post"
               element={<AddNewPostPage></AddNewPostPage>}
+            ></Route>
+            <Route
+              path="/manage/add-category"
+              element={<AddNewCategoryPage></AddNewCategoryPage>}
+            ></Route>
+            <Route
+              path="/manage/category"
+              element={<CategoryManagePage></CategoryManagePage>}
+            ></Route>
+            <Route
+              path="/manage/edit-category"
+              element={<EditCategoryPage></EditCategoryPage>}
             ></Route>
           </Route>
           <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>

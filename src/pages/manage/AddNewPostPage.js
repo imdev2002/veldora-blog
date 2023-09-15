@@ -26,17 +26,7 @@ import {
 import { db } from "firebase-app/firebase-config";
 import { useAuthStore } from "store";
 import { toast } from "react-toastify";
-
-const AddNewPostPageStyles = styled.div`
-  .field-format {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    & > * {
-      width: 46%;
-    }
-  }
-`;
+import FormContainer from "layout/FormContainer";
 
 const AddNewPostPage = () => {
   const { user } = useAuthStore((state) => state);
@@ -61,6 +51,7 @@ const AddNewPostPage = () => {
   });
   const [optionValues, setOptionValues] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
   const watchStatus = watch("status");
   const watchFeatured = watch("featured");
   const {
@@ -86,31 +77,34 @@ const AddNewPostPage = () => {
     getUserInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const uploadPostHandler = async (values) => {
-    console.log(
-      "🚀 ~ file: AddNewPostPage.js:83 ~ uploadPostHandler ~ values:",
-      values
-    );
-    const categoriesSelected = optionValues.map((category) => category.value);
-    console.log({ ...values, categories: categoriesSelected });
-    const colRef = collection(db, "posts");
-    await addDoc(colRef, {
-      ...values,
-      image,
-      slug: slugify(values.slug || values.title, { lower: true }),
-      status: Number(values.status),
-      categories: categoriesSelected,
-      createdAt: serverTimestamp(),
-    });
-    toast.success("Create new post successfully!");
-    reset({
-      title: "",
-      status: 2,
-      categories: [],
-      featured: false,
-    });
-    handleResetUpload();
-    setOptionValues([]);
+  const handleUploadPost = async (values) => {
+    try {
+      const categoriesSelected = optionValues.map((category) => category.value);
+      console.log({ ...values, categories: categoriesSelected });
+      const colRef = collection(db, "posts");
+      await addDoc(colRef, {
+        ...values,
+        image,
+        slug: slugify(values.slug || values.title, { lower: true }),
+        status: Number(values.status),
+        categories: categoriesSelected,
+        createdAt: serverTimestamp(),
+      });
+      toast.success("Create new post successfully!");
+      reset({
+        title: "",
+        status: 2,
+        categories: [],
+        featured: false,
+      });
+      handleResetUpload();
+      setOptionValues([]);
+      setLoading(true);
+    } catch (error) {
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -132,9 +126,9 @@ const AddNewPostPage = () => {
 
   console.log(categories);
   return (
-    <AddNewPostPageStyles>
+    <FormContainer>
       <Heading>Add new post</Heading>
-      <form autoComplete="off" onSubmit={handleSubmit(uploadPostHandler)}>
+      <form autoComplete="off" onSubmit={handleSubmit(handleUploadPost)}>
         <div className="field-format">
           <Field>
             <Label htmlFor="title">Title</Label>
@@ -227,7 +221,7 @@ const AddNewPostPage = () => {
         </div>
         <Button type="submit">Create Post</Button>
       </form>
-    </AddNewPostPageStyles>
+    </FormContainer>
   );
 };
 

@@ -12,3 +12,12 @@ export const postStatus = {
   PENDING: 2,
   REJECTED: 3,
 };
+
+export const categoryStatus = {
+  UNAPPROVED: 0,
+  APPROVED: 1,
+};
+
+export const itemPerPage = {
+  MANAGE: 1,
+};

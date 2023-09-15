@@ -82,3 +82,33 @@ a {
     color: #2980b9;
   }
 }
+
+.button-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.search {
+  max-width: 240px;
+  position: relative;
+  border: 2px solid rgba(128, 128, 128, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  &-input {
+    width: 100%;
+    outline: none;
+    padding-right: 24px;
+  }
+  &-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

@@ -19,9 +19,13 @@ const PostMetaStyles = styled.div`
       object-fit: cover;
       border-radius: 100rem;
     }
+
     &-name {
       font-weight: 500;
     }
+  }
+  .post-date {
+    column-gap: 6px;
   }
 `;
 

@@ -6,6 +6,7 @@ import PostTitle from "./PostTitle";
 import PostMeta from "./PostMeta";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
+import { v4 } from "uuid";
 
 const PostItemLargeStyles = styled.div`
   position: relative;
@@ -23,7 +24,7 @@ const PostItemLargeStyles = styled.div`
 
 const PostItemLarge = (props) => {
   const [categories, setCategories] = useState([]);
-  const { data } = props;
+  const { data, ...rest } = props;
   useEffect(() => {
     const colRef = collection(db, "categories");
 
@@ -40,14 +41,16 @@ const PostItemLarge = (props) => {
 
     fetchCategory();
   }, []);
-  console.log(categories);
 
-  // console.log(categories);
   if (!data) return;
-  const { title, slug, desc, image, createAt } = data;
-
+  const { title, slug, desc, image, createdAt, user } = data;
+  const date = new Date(createdAt.seconds * 1000).toLocaleDateString("vi-VI", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   return (
-    <PostItemLargeStyles className="post-large">
+    <PostItemLargeStyles className="post-large" {...rest}>
       <PostThumbnail
         height="480px"
         url={
@@ -57,14 +60,14 @@ const PostItemLarge = (props) => {
       ></PostThumbnail>
       <div className="post-content">
         {categories.map((category) => (
-          <PostCategory href={`/${category.slug}`}>
+          <PostCategory key={v4()} href={`/${category.slug}`}>
             {category.name}
           </PostCategory>
         ))}
         <PostTitle size="32px" color="white">
           {title}
         </PostTitle>
-        <PostMeta color="white"></PostMeta>
+        <PostMeta color="white" date={date} auth={user}></PostMeta>
       </div>
     </PostItemLargeStyles>
   );
