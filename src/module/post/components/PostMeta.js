@@ -1,5 +1,6 @@
 import { IconClock } from "components/icons";
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const PostMetaStyles = styled.div`
@@ -22,6 +23,7 @@ const PostMetaStyles = styled.div`
 
     &-name {
       font-weight: 500;
+      color: white;
     }
   }
   .post-date {
@@ -32,7 +34,10 @@ const PostMetaStyles = styled.div`
 const PostMeta = ({ color = "black", auth, date = "Dec 24, 2016" }) => {
   return (
     <PostMetaStyles className="post-meta" color={color}>
-      <div className="post-auth">
+      <Link
+        to={auth?.username ? `/profile/${auth.username}` : "#"}
+        className="post-auth"
+      >
         <img
           className="post-auth-avt"
           src="https://jellywp.com/theme/disto/demo/wp-content/uploads/2016/12/felipe-sagn-1434616-unsplash-780x450.jpg"
@@ -41,7 +46,7 @@ const PostMeta = ({ color = "black", auth, date = "Dec 24, 2016" }) => {
         <span className="post-auth-name">
           {auth?.fullname ? auth.fullname : "im_dev2002"}
         </span>
-      </div>
+      </Link>
 
       <div className="post-date">
         <span className="post-date-icon">

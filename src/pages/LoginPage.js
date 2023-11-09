@@ -72,8 +72,8 @@ const LoginPage = () => {
         </Field>
         <div className="have-account">
           Do not have an account?
-          <Link to="/login" style={{}}>
-            Login now
+          <Link to="/register" style={{}}>
+            Register now
           </Link>
         </div>
         <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>

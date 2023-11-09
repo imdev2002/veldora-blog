@@ -39,7 +39,7 @@ const PostThumbnailStyles = styled.div`
 const PostThumbnail = ({ url, href = "#", height, children }) => {
   return (
     <PostThumbnailStyles height={height} className="post-thumb">
-      <Link to={href}>
+      <Link to={`/post/${href}`}>
         <img src={url} alt="" loading="lazy" />
         <div className="overlay"></div>
       </Link>

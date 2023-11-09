@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PostThumbnail from "./PostThumbnail";
+import PostThumbnail from "./components/PostThumbnail";
 
 const PostFeatureItemStyles = styled.div``;
 

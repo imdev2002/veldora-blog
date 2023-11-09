@@ -14,7 +14,7 @@ const NotFoundPage = () => {
   return (
     <NotFoundStyles>
       <img src="/404.png" alt="" />
-      <Button>Back to home</Button>
+      <Button href="/">Back to home</Button>
     </NotFoundStyles>
   );
 };

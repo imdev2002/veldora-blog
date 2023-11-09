@@ -1,9 +1,9 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import PostThumbnail from "./PostThumbnail";
-import PostTitle from "./PostTitle";
-import PostCategory from "./PostCategory";
-import PostMeta from "./PostMeta";
+import PostThumbnail from "./components/PostThumbnail";
+import PostTitle from "./components/PostTitle";
+import PostCategory from "./components/PostCategory";
+import PostMeta from "./components/PostMeta";
 
 const PostMiniItemStyles = styled.div`
   display: flex;

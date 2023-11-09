@@ -7,13 +7,21 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBdQTwmAbW3cpHYHiesyVkcwBnc0pGmAEw",
-  authDomain: "fspade-blog.firebaseapp.com",
-  projectId: "fspade-blog",
-  storageBucket: "fspade-blog.appspot.com",
-  messagingSenderId: "782374426586",
-  appId: "1:782374426586:web:b85068f46c90dfe155d2e3",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBdQTwmAbW3cpHYHiesyVkcwBnc0pGmAEw",
+//   authDomain: "fspade-blog.firebaseapp.com",
+//   projectId: "fspade-blog",
+//   storageBucket: "fspade-blog.appspot.com",
+//   messagingSenderId: "782374426586",
+//   appId: "1:782374426586:web:b85068f46c90dfe155d2e3",
+// };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

@@ -18,6 +18,8 @@ import useFirebaseImage from "hooks/useFireBaseImage";
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   query,
   serverTimestamp,
@@ -27,9 +29,12 @@ import { db } from "firebase-app/firebase-config";
 import { useAuthStore } from "store";
 import { toast } from "react-toastify";
 import FormContainer from "layout/FormContainer";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const AddNewPostPage = () => {
   const { user } = useAuthStore((state) => state);
+  console.log("file: AddNewPostPage.js:35  AddNewPostPage  user:", user);
   const {
     control,
     watch,
@@ -54,6 +59,7 @@ const AddNewPostPage = () => {
   const [loading, setLoading] = useState(false);
   const watchStatus = watch("status");
   const watchFeatured = watch("featured");
+  const [content, setContent] = useState();
   const {
     image,
     progress,
@@ -61,34 +67,26 @@ const AddNewPostPage = () => {
     handleDeleteImg,
     handleResetUpload,
   } = useFirebaseImage(setValue, getValues);
-  useEffect(() => {
-    async function getUserInfo() {
-      if (!user) return;
-      const colRef = collection(db, "users");
-      const q = query(colRef, where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setValue("user", {
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-    }
-    getUserInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
   const handleUploadPost = async (values) => {
     try {
-      const categoriesSelected = optionValues.map((category) => category.value);
+      const categoriesSelected = await Promise.all(
+        optionValues.map(async (category) => {
+          const colRef = doc(db, "categories", category.value);
+          const data = (await getDoc(colRef)).data();
+          return { id: category.value, ...data };
+        })
+      );
       console.log({ ...values, categories: categoriesSelected });
       const colRef = collection(db, "posts");
       await addDoc(colRef, {
         ...values,
-        image,
+        thumbnail: image,
         slug: slugify(values.slug || values.title, { lower: true }),
         status: Number(values.status),
         categories: categoriesSelected,
         createdAt: serverTimestamp(),
+        content,
       });
       toast.success("Create new post successfully!");
       reset({
@@ -99,6 +97,7 @@ const AddNewPostPage = () => {
       });
       handleResetUpload();
       setOptionValues([]);
+      setContent("");
       setLoading(true);
     } catch (error) {
       setLoading(false);
@@ -123,8 +122,23 @@ const AddNewPostPage = () => {
     }
     getCategories();
   }, []);
+  useEffect(() => {
+    async function getUserInfo() {
+      if (!user) return;
+      const colRef = collection(db, "users");
+      const q = query(colRef, where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setValue("user", {
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+    }
+    getUserInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.email]);
 
-  console.log(categories);
   return (
     <FormContainer>
       <Heading>Add new post</Heading>
@@ -158,6 +172,18 @@ const AddNewPostPage = () => {
               handleDeleteImage={handleDeleteImg}
             ></ImageUpload>
           </Field>
+        </div>
+        <div
+          className="entry-content"
+          style={{
+            marginBottom: "40px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
+        >
+          <Label>Contents</Label>
+          <ReactQuill theme="snow" value={content} onChange={setContent} />
         </div>
         <div className="field-format">
           <Field>

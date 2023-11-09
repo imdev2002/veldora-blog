@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import PostCategory from "./PostCategory";
-import PostTitle from "./PostTitle";
-import PostMeta from "./PostMeta";
-import PostDescription from "./PostDescription";
-import PostThumbnail from "./PostThumbnail";
+import PostCategory from "./components/PostCategory";
+import PostTitle from "./components/PostTitle";
+import PostMeta from "./components/PostMeta";
+import PostDescription from "./components/PostDescription";
+import PostThumbnail from "./components/PostThumbnail";
 
 const PostItemStyles = styled.div`
   width: 340px;

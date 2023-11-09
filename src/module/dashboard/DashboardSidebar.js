@@ -6,6 +6,8 @@ import {
   IconTags,
 } from "components/icons";
 import IconCategories from "components/icons/IconCategories";
+import { auth } from "firebase-app/firebase-config";
+import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -74,26 +76,44 @@ const itemLinks = [
   },
   {
     title: "Logout",
-    url: "#",
+    url: "/",
     icon: <IconLogout size={iconSize - 4} color={iconColor}></IconLogout>,
+    onClick: () => signOut(auth),
   },
 ];
 
 const DashboardSidebar = () => {
   return (
     <DashboardSidebarStyles className="sidebar">
-      {itemLinks.map((item) => (
-        <NavLink
-          to={item.url}
-          className={({ isActive }) =>
-            isActive ? "sidebar__link sidebar__link--active" : "sidebar__link"
-          }
-          key={v4()}
-        >
-          <span className="sidebar__link-icon">{item.icon}</span>
-          <span className="sidebar__link-title">{item.title}</span>
-        </NavLink>
-      ))}
+      {itemLinks.map((item) => {
+        if (item.onClick)
+          return (
+            <div
+              className={({ isActive }) =>
+                isActive
+                  ? "sidebar__link sidebar__link--active"
+                  : "sidebar__link"
+              }
+              key={v4()}
+              onClick={item.onClick}
+            >
+              <span className="sidebar__link-icon">{item.icon}</span>
+              <span className="sidebar__link-title">{item.title}</span>
+            </div>
+          );
+        return (
+          <NavLink
+            to={item.url}
+            className={({ isActive }) =>
+              isActive ? "sidebar__link sidebar__link--active" : "sidebar__link"
+            }
+            key={v4()}
+          >
+            <span className="sidebar__link-icon">{item.icon}</span>
+            <span className="sidebar__link-title">{item.title}</span>
+          </NavLink>
+        );
+      })}
     </DashboardSidebarStyles>
   );
 };

@@ -22,7 +22,7 @@ const PostTitleStyles = styled.h3`
 const PostTitle = ({ size = "18px", color, href = "#", children }) => {
   return (
     <PostTitleStyles size={size} color={color} className="post-title">
-      <Link to={href}>{children}</Link>
+      <Link to={`/post/${href}`}>{children}</Link>
     </PostTitleStyles>
   );
 };

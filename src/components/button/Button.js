@@ -1,5 +1,6 @@
 import { LoadingSpinner } from "components/loading";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const ButtonStyles = styled.button`
@@ -29,10 +30,17 @@ const Button = ({
   type = "button",
   children,
   onClick = () => {},
+  href,
   ...props
 }) => {
+  const navigate = useNavigate();
   const { isLoading } = props;
-
+  if (href)
+    return (
+      <ButtonStyles type={type} onClick={() => navigate(href)} {...props}>
+        {isLoading ? <LoadingSpinner></LoadingSpinner> : children}
+      </ButtonStyles>
+    );
   return (
     <ButtonStyles type={type} onClick={onClick} {...props}>
       {isLoading ? <LoadingSpinner></LoadingSpinner> : children}

@@ -41,17 +41,24 @@ const RegisterPage = () => {
     await createUserWithEmailAndPassword(auth, values.email, values.password);
     await updateProfile(auth.currentUser, { displayName: values.fullname });
     toast.success("Registered successfully!!");
-    const colRef = collection(db, "users");
-    await addDoc(colRef, {
-      fullname: values.fullname,
-      email: values.email,
-      password: values.password,
-    });
+    // const colRef = collection(db, "users");
+    // await addDoc(colRef, {
+    //   fullname: values.fullname,
+    //   email: values.email,
+    //   password: values.password,
+    // });
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullname: values.fullname,
       email: values.email,
       password: values.password,
-      username: slugify(values.fullname, { lower: true }),
+      avatar:
+        "https://firebasestorage.googleapis.com/v0/b/fspade-blog.appspot.com/o/images%2Flogo.png?alt=media&token=4a53bbe6-3b16-4a4c-a052-1016073299f9",
+      username: slugify(
+        values.fullname + "-" + auth.currentUser.uid.slice(0, 10),
+        {
+          lower: true,
+        }
+      ),
     });
     navigate("/");
   };

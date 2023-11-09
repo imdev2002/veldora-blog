@@ -1,7 +1,7 @@
 import { Button } from "components/button";
 import { IconSearch } from "components/icons";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuthStore } from "store";
 import styled from "styled-components";
 import { v4 } from "uuid";
@@ -65,7 +65,6 @@ const menuItems = [
 
 const Header = () => {
   const { user } = useAuthStore((state) => state);
-
   return (
     <HeaderStyles>
       <div className="header-main">
@@ -97,11 +96,12 @@ const Header = () => {
             <Button
               height="40px"
               style={{ minWidth: "80px", fontWeight: "400", fontSize: "16px" }}
+              href="/login"
             >
               Login
             </Button>
           ) : (
-            <span>{user?.email}</span>
+            <Link to={`/profile/${user.uid}`}>{user?.email}</Link>
           )}
         </div>
       </div>
