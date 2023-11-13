@@ -5,7 +5,7 @@ import { FieldCheckboxes } from "components/field";
 import { IconSearch } from "components/icons";
 import Heading from "components/layout/Heading";
 import { Table } from "components/table";
-import { db } from "firebase-app/firebase-config";
+import { db } from "config/firebase-config";
 import {
   collection,
   deleteDoc,

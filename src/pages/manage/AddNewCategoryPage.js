@@ -4,7 +4,7 @@ import { Field, FieldCheckboxes } from "components/field";
 import { Input } from "components/input";
 import { Label } from "components/label";
 import Heading from "components/layout/Heading";
-import { db } from "firebase-app/firebase-config";
+import { db } from "config/firebase-config";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import FormContainer from "layout/FormContainer";
 import React from "react";

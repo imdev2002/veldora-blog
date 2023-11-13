@@ -23,6 +23,7 @@ import {
   getDocs,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "config/firebase-config";
@@ -34,10 +35,12 @@ import "react-quill/dist/quill.snow.css";
 import { imgbbAPI } from "config/apiConfig";
 import axios from "axios";
 import ImageUploader from "quill-image-uploader";
+import { useSearchParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 Quill.register("modules/imageUploader", ImageUploader);
 
-const AddNewPostPage = () => {
+const UpdatePostPage = () => {
   const { user } = useAuthStore((state) => state);
   console.log("file: AddNewPostPage.js:35  AddNewPostPage  user:", user);
   const {
@@ -59,64 +62,28 @@ const AddNewPostPage = () => {
       user: {},
     },
   });
+  const [params] = useSearchParams();
+  const postId = params.get("id");
   const [optionValues, setOptionValues] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [categoriesSelected, setCategoriesSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   const watchStatus = watch("status");
   const watchFeatured = watch("featured");
   const [content, setContent] = useState();
+
+  const imageUrl = getValues("thumbnail");
+  const imageName = getValues("image_name");
   // const {
   //   image,
+  //   setImage,
   //   progress,
   //   handleSelectImg,
   //   handleDeleteImg,
   //   handleResetUpload,
   // } = useFirebaseImage(setValue, getValues);
-  const {
-    image,
-    handleResetUpload,
-    progress,
-    handleSelectImage,
-    handleDeleteImage,
-  } = useFirebaseImage(setValue, getValues);
-
-  const handleUploadPost = async (values) => {
-    try {
-      const categoriesSelected = await Promise.all(
-        optionValues.map(async (category) => {
-          const colRef = doc(db, "categories", category.value);
-          const data = (await getDoc(colRef)).data();
-          return { id: category.value, ...data };
-        })
-      );
-      console.log({ ...values, categories: categoriesSelected });
-      const colRef = collection(db, "posts");
-      await addDoc(colRef, {
-        ...values,
-        thumbnail: image,
-        slug: slugify(values.slug || values.title, { lower: true }),
-        status: Number(values.status),
-        categories: categoriesSelected,
-        createdAt: serverTimestamp(),
-        content,
-      });
-      toast.success("Create new post successfully!");
-      reset({
-        title: "",
-        status: 2,
-        categories: [],
-        featured: false,
-      });
-      handleResetUpload();
-      setOptionValues([]);
-      setContent("");
-      setLoading(true);
-    } catch (error) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { image, setImage, progress, handleSelectImage, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues, imageName, deletePostImage);
 
   useEffect(() => {
     async function getCategories() {
@@ -134,22 +101,39 @@ const AddNewPostPage = () => {
     }
     getCategories();
   }, []);
+
+  async function deletePostImage() {
+    // if (user?.role !== user.ADMIN) {
+    //   Swal.fire("Failed", "You have no right to do this action", "warning");
+    //   return;
+    // }
+    const colRef = doc(db, "posts", postId);
+    await updateDoc(colRef, {
+      thumnail: "",
+    });
+  }
   useEffect(() => {
-    async function getUserInfo() {
-      if (!user) return;
-      const colRef = collection(db, "users");
-      const q = query(colRef, where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setValue("user", {
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
+    setImage(imageUrl);
+  }, [imageUrl, setImage]);
+  useEffect(() => {
+    async function fetchData() {
+      if (!postId) return;
+      const docRef = doc(db, "posts", postId);
+      const docSnapshot = await getDoc(docRef);
+      if (docSnapshot.data()) {
+        console.log(docSnapshot.data());
+        reset(docSnapshot.data());
+        setOptionValues(
+          docSnapshot.data()?.categories?.map((category) => ({
+            label: category.name,
+            value: category.id,
+          }))
+        );
+        setContent(docSnapshot.data()?.content || "");
+      }
     }
-    getUserInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.email]);
+    fetchData();
+  }, [postId, reset]);
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -182,10 +166,42 @@ const AddNewPostPage = () => {
     []
   );
 
+  const handleUpdatePost = async (values) => {
+    try {
+      if (!isValid) return;
+      // if (user?.role !== user.ADMIN) {
+      //   Swal.fire("Failed", "You have no right to do this action", "warning");
+      //   return;
+      // }
+      const categoriesSelected = await Promise.all(
+        optionValues.map(async (category) => {
+          const colRef = doc(db, "categories", category.value);
+          const data = (await getDoc(colRef)).data();
+          return { id: category.value, ...data };
+        })
+      );
+      const colRef = doc(db, "posts", postId);
+      await updateDoc(colRef, {
+        ...values,
+        thumbnail: image,
+        slug: slugify(values.slug || values.title, { lower: true }),
+        status: Number(values.status),
+        categories: categoriesSelected,
+        content,
+      });
+      toast.success("Create new post successfully!");
+      setLoading(true);
+    } catch (error) {
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <FormContainer>
       <Heading>Add new post</Heading>
-      <form autoComplete="off" onSubmit={handleSubmit(handleUploadPost)}>
+      <form autoComplete="off" onSubmit={handleSubmit(handleUpdatePost)}>
         <div className="field-format">
           <Field>
             <Label htmlFor="title">Title</Label>
@@ -208,7 +224,7 @@ const AddNewPostPage = () => {
           <Field>
             <Label>Thumbnail</Label>
             <ImageUpload
-              name="image"
+              name="thumbnail"
               progress={progress}
               image={image}
               onChange={handleSelectImage}
@@ -293,10 +309,10 @@ const AddNewPostPage = () => {
             onClick={() => setValue("featured", !watchFeatured)}
           ></Toggle>
         </div>
-        <Button type="submit">Create Post</Button>
+        <Button type="submit">Update Post</Button>
       </form>
     </FormContainer>
   );
 };
 
-export default AddNewPostPage;
+export default UpdatePostPage;

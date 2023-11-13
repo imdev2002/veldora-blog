@@ -6,7 +6,7 @@ import {
   IconTags,
 } from "components/icons";
 import IconCategories from "components/icons/IconCategories";
-import { auth } from "firebase-app/firebase-config";
+import { auth } from "config/firebase-config";
 import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";

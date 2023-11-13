@@ -1,6 +1,6 @@
 import Heading from "components/layout/Heading";
 import { Table } from "components/table";
-import { db } from "firebase-app/firebase-config";
+import { db } from "config/firebase-config";
 import { collection, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -68,7 +68,11 @@ const PostManagePage = () => {
               <td>{post.user.fullname}</td>
               <td>{post.status}</td>
               <td>{post.status}</td>
-              <td>Nothing</td>
+              <td>
+                <div>
+                  <a href={`/manage/update-post?id=${post.id}`}>Edit</a>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

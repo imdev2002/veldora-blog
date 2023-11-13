@@ -8,12 +8,19 @@ import { Button } from "components/button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "firebase-app/firebase-config";
+import { auth, db } from "config/firebase-config";
 import { toast } from "react-toastify";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import LayoutAuthentication from "layout/LayoutAuthentication";
 import slugify from "slugify";
+import { userRole, userStatus } from "utils/constants";
 
 const schema = yup.object({
   fullname: yup.string().required("Please enter your fullname"),
@@ -52,13 +59,15 @@ const RegisterPage = () => {
       email: values.email,
       password: values.password,
       avatar:
-        "https://firebasestorage.googleapis.com/v0/b/fspade-blog.appspot.com/o/images%2Flogo.png?alt=media&token=4a53bbe6-3b16-4a4c-a052-1016073299f9",
+        "https://firebasestorage.googleapis.com/v0/b/fspade-blog.appspot.com/o/images%2F3177440.png?alt=media&token=ea29f785-7cef-47a6-af6b-a7c8c89d57d7",
       username: slugify(
         values.fullname + "-" + auth.currentUser.uid.slice(0, 10),
         {
           lower: true,
         }
       ),
+      role: userRole.USER,
+      createdAt: serverTimestamp(),
     });
     navigate("/");
   };

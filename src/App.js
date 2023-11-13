@@ -7,7 +7,7 @@ import LayoutDashboard from "layout/LayoutDashboard";
 import AddNewPostPage from "pages/manage/AddNewPostPage";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "firebase-app/firebase-config";
+import { auth, db } from "config/firebase-config";
 import { useAuthStore } from "store";
 import AddNewCategoryPage from "pages/manage/AddNewCategoryPage";
 import CategoryManagePage from "pages/manage/CategoryManagePage";
@@ -17,15 +17,32 @@ import ProfilePage from "pages/ProfilePage";
 import PostManagePage from "pages/manage/PostManagePage";
 import Layout from "components/layout/Layout";
 import PostDetailPage from "pages/PostDetailPage";
+import UpdatePostPage from "pages/manage/UpdatePostPage";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 function App() {
   const { setCurrentUser } = useAuthStore((state) => state);
   useEffect(() => {
-    onAuthStateChanged(auth, (user) =>
-      user ? setCurrentUser(user) : setCurrentUser(null)
-    );
-  }, [setCurrentUser]);
-  console.log(process.env);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const docRef = query(
+          collection(db, "users"),
+          where("email", "==", user.email)
+        );
+        onSnapshot(docRef, (snapshot) => {
+          snapshot.forEach((doc) => {
+            setCurrentUser({
+              ...user,
+              ...doc.data(),
+            });
+          });
+        });
+      } else {
+        setCurrentUser(null);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <Routes>
@@ -47,6 +64,10 @@ function App() {
           <Route
             path="/manage/add-post"
             element={<AddNewPostPage></AddNewPostPage>}
+          ></Route>
+          <Route
+            path="/manage/update-post"
+            element={<UpdatePostPage></UpdatePostPage>}
           ></Route>
           <Route
             path="/manage/add-category"

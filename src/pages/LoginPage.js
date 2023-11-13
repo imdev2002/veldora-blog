@@ -9,7 +9,7 @@ import LayoutAuthentication from "layout/LayoutAuthentication";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "firebase-app/firebase-config";
+import { auth } from "config/firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "store";
 

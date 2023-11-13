@@ -1,4 +1,4 @@
-import { db } from "firebase-app/firebase-config";
+import { db } from "config/firebase-config";
 import {
   collection,
   limit,

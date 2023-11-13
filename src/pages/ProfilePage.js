@@ -1,5 +1,5 @@
 import Layout from "components/layout/Layout";
-import { db } from "firebase-app/firebase-config";
+import { db } from "config/firebase-config";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import React from "react";
 import { useState } from "react";

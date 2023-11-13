@@ -23,7 +23,6 @@ const PostMetaStyles = styled.div`
 
     &-name {
       font-weight: 500;
-      color: white;
     }
   }
   .post-date {
@@ -38,11 +37,7 @@ const PostMeta = ({ color = "black", auth, date = "Dec 24, 2016" }) => {
         to={auth?.username ? `/profile/${auth.username}` : "#"}
         className="post-auth"
       >
-        <img
-          className="post-auth-avt"
-          src="https://jellywp.com/theme/disto/demo/wp-content/uploads/2016/12/felipe-sagn-1434616-unsplash-780x450.jpg"
-          alt=""
-        />
+        <img className="post-auth-avt" src={auth?.avatar} alt="" />
         <span className="post-auth-name">
           {auth?.fullname ? auth.fullname : "im_dev2002"}
         </span>

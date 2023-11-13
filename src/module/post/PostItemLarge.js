@@ -5,7 +5,7 @@ import PostCategory from "./components/PostCategory";
 import PostTitle from "./components/PostTitle";
 import PostMeta from "./components/PostMeta";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "firebase-app/firebase-config";
+import { db } from "config/firebase-config";
 import { v4 } from "uuid";
 
 const PostItemLargeStyles = styled.div`
@@ -19,6 +19,9 @@ const PostItemLargeStyles = styled.div`
     .post-title a {
       color: white;
     }
+  }
+  .post-auth-name {
+    color: white;
   }
 `;
 

@@ -1,6 +1,8 @@
 import { Button } from "components/button";
 import { IconSearch } from "components/icons";
-import React from "react";
+import { useClickOutside } from "hooks/useClickOutSide";
+import React, { useRef } from "react";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthStore } from "store";
 import styled from "styled-components";
@@ -21,6 +23,28 @@ const HeaderStyles = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .header-r__user {
+    cursor: pointer;
+    position: relative;
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    &-popover {
+      position: absolute;
+      top: calc(100% + 20px);
+      width: 240px;
+      height: 400px;
+      background: white;
+      display: block;
+      right: 0;
+      border-radius: 8px;
+      box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
+        rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+    }
   }
   .header-l,
   .header-r {
@@ -65,6 +89,9 @@ const menuItems = [
 
 const Header = () => {
   const { user } = useAuthStore((state) => state);
+  const [showPopover, setShowPopover] = useState(false);
+  const userPopoverRef = useRef();
+  useClickOutside(userPopoverRef, () => setShowPopover(false));
   return (
     <HeaderStyles>
       <div className="header-main">
@@ -101,7 +128,18 @@ const Header = () => {
               Login
             </Button>
           ) : (
-            <Link to={`/profile/${user.uid}`}>{user?.email}</Link>
+            <div
+              ref={userPopoverRef}
+              className="header-r__user"
+              onClick={() => setShowPopover(!showPopover)}
+            >
+              <img src={user.avatar} alt="" />
+              <UserPopover
+                show={showPopover}
+                setShow={setShowPopover}
+                data={user}
+              ></UserPopover>
+            </div>
           )}
         </div>
       </div>
@@ -110,3 +148,7 @@ const Header = () => {
 };
 
 export default Header;
+
+const UserPopover = ({ show, setShow, data }) => {
+  return show ? <div className="header-r__user-popover"></div> : null;
+};
