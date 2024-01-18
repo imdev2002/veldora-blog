@@ -70,16 +70,15 @@ const ProfilePage = () => {
     // onSnapshot()
   }, []);
   return (
-    <Layout>
-      <ProfilePageStyles className="container">
-        <div className="profile-cover"></div>
-        <div className="profile-avt">
-          <img src={avatarDefault} alt="" />
-        </div>
-        <div className="profile-info">
-          <div className="profile-info__name">{info?.fullname}</div>
-          <div className="profile-info__username">@{info?.username}</div>
-          {/* <div className="profile-info__item">
+    <ProfilePageStyles className="container">
+      <div className="profile-cover"></div>
+      <div className="profile-avt">
+        <img src={avatarDefault} alt="" />
+      </div>
+      <div className="profile-info">
+        <div className="profile-info__name">{info?.fullname}</div>
+        <div className="profile-info__username">@{info?.username}</div>
+        {/* <div className="profile-info__item">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -111,9 +110,8 @@ const ProfilePage = () => {
           </span>
           <p>52 posts</p>
         </div> */}
-        </div>
-      </ProfilePageStyles>
-    </Layout>
+      </div>
+    </ProfilePageStyles>
   );
 };
 

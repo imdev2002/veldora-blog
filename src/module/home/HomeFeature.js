@@ -1,3 +1,4 @@
+import { useWindowSize } from "@uidotdev/usehooks";
 import { db } from "config/firebase-config";
 import {
   collection,
@@ -11,6 +12,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const HomeFeatureStyles = styled.div`
+  @media only screen and (max-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2px;
@@ -25,6 +29,8 @@ const HomeFeatureStyles = styled.div`
 
 const HomeFeature = () => {
   const [posts, setPosts] = useState([]);
+  const { width } = useWindowSize();
+
   useEffect(() => {
     const colRef = collection(db, "posts");
     const q = query(
@@ -43,12 +49,12 @@ const HomeFeature = () => {
       });
       setPosts(result);
     });
-  }, []);
-  if (posts.length <= 0) return;
+  }, [width]);
+  if (posts.length <= 0 || width <= 640) return;
   console.log(posts);
   return (
     <HomeFeatureStyles>
-      {posts.map((post) => (
+      {(width <= 1024 ? posts.slice(0, 2) : posts).map((post) => (
         <PostItemLarge key={post.id} data={post}></PostItemLarge>
       ))}
     </HomeFeatureStyles>

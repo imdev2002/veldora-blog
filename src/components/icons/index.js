@@ -6,3 +6,5 @@ export const { default: IconDashboard } = require("./IconDashboard");
 export const { default: IconLogout } = require("./IconLogout");
 export const { default: IconProfile } = require("./IconProfile");
 export const { default: IconTags } = require("./IconTags");
+export const { default: IconMenu } = require("./IconMenu");
+export const { default: IconClose } = require("./IconClose");

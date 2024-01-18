@@ -8,6 +8,7 @@ import { theme } from "./utils/constants";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ScrollToTop } from "react-router-scroll-to-top";
 
 import { createRoot } from "react-dom/client";
 const container = document.getElementById("root");
@@ -18,6 +19,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <GlobalStyles></GlobalStyles>
       <BrowserRouter>
+        <ScrollToTop />
         <App />
         <ToastContainer></ToastContainer>
       </BrowserRouter>

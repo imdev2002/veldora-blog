@@ -4,7 +4,7 @@ import styled from "styled-components";
 const HeadingSyles = styled.h2`
   font-size: 24px;
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   &::before {
     content: "";
     position: absolute;

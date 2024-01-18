@@ -46,7 +46,7 @@ const PostDetailStyles = styled.div`
     }
     &-content {
       max-width: 700px;
-      margin: 80px auto;
+      margin: 40px auto 80px auto;
     }
   }
   .author {
@@ -54,7 +54,7 @@ const PostDetailStyles = styled.div`
     margin-bottom: 80px;
     display: flex;
     border-radius: 20px;
-    background-color: ${(props) => props.theme.grayF3};
+    background: ${(props) => props.theme.gray1};
     &-image {
       width: 200px;
       height: 200px;

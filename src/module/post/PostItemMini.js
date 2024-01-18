@@ -46,7 +46,7 @@ const PostItemMini = ({ isReverse = false, data, ...props }) => {
       ></PostThumbnail>
       <div className="post-content">
         <PostCategory>{categories[0].name}</PostCategory>
-        <PostTitle size="16px" href="slug">
+        <PostTitle size="16px" href={slug}>
           {title || "You can make your art with canyon color"}
         </PostTitle>
         <PostMeta date={date} auth={user}></PostMeta>

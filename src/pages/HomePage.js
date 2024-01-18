@@ -18,6 +18,9 @@ import {
 } from "firebase/firestore";
 
 const RandomPostsStyles = styled.div`
+  @media only screen and (max-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
@@ -32,6 +35,13 @@ const HomeMainStyles = styled.div`
       gap: 8px;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .home__sidebar {
+      @media only screen and (max-width: 640px) {
+        iframe {
+          width: 240px;
+        }
+      }
     }
   }
   .home__sidebar {
@@ -95,11 +105,9 @@ const HomePage = () => {
               <Heading>Fanpage</Heading>
               <iframe
                 title="My fanpage"
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAnhbia247&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                width={340}
-                height={500}
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAnhbia247&tabs=timeline&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
                 style={{ border: "none", overflow: "hidden" }}
-                allowFullScreen="true"
+                allowFullScreen={false}
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
               />
             </div>

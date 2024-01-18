@@ -4,8 +4,6 @@ import PostThumbnail from "./components/PostThumbnail";
 import PostCategory from "./components/PostCategory";
 import PostTitle from "./components/PostTitle";
 import PostMeta from "./components/PostMeta";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "config/firebase-config";
 import { v4 } from "uuid";
 
 const PostItemLargeStyles = styled.div`
@@ -16,6 +14,10 @@ const PostItemLargeStyles = styled.div`
     bottom: 0;
     margin: 12px;
     z-index: 2;
+    .post-categories {
+      display: flex;
+      gap: 8px;
+    }
     .post-title a {
       color: white;
     }
@@ -46,11 +48,13 @@ const PostItemLarge = (props) => {
         }
       ></PostThumbnail>
       <div className="post-content">
-        {data.categories.map((category) => (
-          <PostCategory key={v4()} href={`/${category.slug}`}>
-            {category.name}
-          </PostCategory>
-        ))}
+        <div className="post-categories">
+          {data.categories.map((category) => (
+            <PostCategory key={v4()} href={`/${category.slug}`}>
+              {category.name}
+            </PostCategory>
+          ))}
+        </div>
         <PostTitle href={slug} size="32px" color="white">
           {title}
         </PostTitle>

@@ -12,6 +12,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "config/firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "store";
+import { toast } from "react-toastify";
 
 const schema = yup.object({
   email: yup
@@ -33,14 +34,19 @@ const LoginPage = () => {
     formState: { errors, isValid, isSubmitting },
   } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
   const handleLogin = async (values) => {
-    if (!isValid) return;
-    console.log(values);
-    await signInWithEmailAndPassword(auth, values.email, values.password);
-    navigate("/");
+    try {
+      if (!isValid) return;
+      console.log(values);
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      navigate("/");
+    } catch (error) {
+      toast.error(error.message || error);
+    }
   };
+  console.log(user);
   useEffect(() => {
     if (user?.email) navigate("/");
-  }, []);
+  }, [JSON.stringify(user)]);
   return (
     <LayoutAuthentication>
       <form

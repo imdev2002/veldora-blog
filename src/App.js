@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "pages/LoginPage";
 import HomePage from "pages/HomePage";
@@ -22,6 +22,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 function App() {
   const { setCurrentUser } = useAuthStore((state) => state);
+  const location = useLocation();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -44,54 +45,52 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
-      <Routes>
-        <Route element={<Layout></Layout>}>
-          <Route path="/" element={<HomePage></HomePage>}></Route>
-          <Route
-            path="/post/:slug"
-            element={<PostDetailPage></PostDetailPage>}
-          ></Route>
-          <Route
-            path="/profile/:username"
-            element={<ProfilePage></ProfilePage>}
-          ></Route>
-          <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
-        </Route>
-        <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
-        <Route path="/login" element={<LoginPage></LoginPage>}></Route>
-        <Route element={<LayoutDashboard></LayoutDashboard>}>
-          <Route
-            path="/manage/add-post"
-            element={<AddNewPostPage></AddNewPostPage>}
-          ></Route>
-          <Route
-            path="/manage/update-post"
-            element={<UpdatePostPage></UpdatePostPage>}
-          ></Route>
-          <Route
-            path="/manage/add-category"
-            element={<AddNewCategoryPage></AddNewCategoryPage>}
-          ></Route>
-          <Route
-            path="/manage/category"
-            element={<CategoryManagePage></CategoryManagePage>}
-          ></Route>
-          <Route
-            path="/manage/edit-category"
-            element={<EditCategoryPage></EditCategoryPage>}
-          ></Route>
-          <Route
-            path="/manage/user"
-            element={<UserManagePage></UserManagePage>}
-          ></Route>
-          <Route
-            path="/manage/post"
-            element={<PostManagePage></PostManagePage>}
-          ></Route>
-        </Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route element={<Layout></Layout>}>
+        <Route path="/" element={<HomePage></HomePage>}></Route>
+        <Route
+          path="/post/:slug"
+          element={<PostDetailPage></PostDetailPage>}
+        ></Route>
+        <Route
+          path="/profile/:username"
+          element={<ProfilePage></ProfilePage>}
+        ></Route>
+        <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
+      </Route>
+      <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
+      <Route path="/login" element={<LoginPage></LoginPage>}></Route>
+      <Route element={<LayoutDashboard></LayoutDashboard>}>
+        <Route
+          path="/manage/add-post"
+          element={<AddNewPostPage></AddNewPostPage>}
+        ></Route>
+        <Route
+          path="/manage/update-post"
+          element={<UpdatePostPage></UpdatePostPage>}
+        ></Route>
+        <Route
+          path="/manage/add-category"
+          element={<AddNewCategoryPage></AddNewCategoryPage>}
+        ></Route>
+        <Route
+          path="/manage/category"
+          element={<CategoryManagePage></CategoryManagePage>}
+        ></Route>
+        <Route
+          path="/manage/edit-category"
+          element={<EditCategoryPage></EditCategoryPage>}
+        ></Route>
+        <Route
+          path="/manage/user"
+          element={<UserManagePage></UserManagePage>}
+        ></Route>
+        <Route
+          path="/manage/post"
+          element={<PostManagePage></PostManagePage>}
+        ></Route>
+      </Route>
+    </Routes>
   );
 }
 
