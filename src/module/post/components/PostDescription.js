@@ -7,6 +7,10 @@ const PostDescriptionStyles = styled.p`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+    display: none;
+  }
 `;
 
 const PostDescription = ({ children }) => {

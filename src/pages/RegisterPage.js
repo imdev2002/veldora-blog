@@ -43,7 +43,6 @@ const RegisterPage = () => {
   } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
   const handleSignUp = async (values) => {
     if (!isValid) return;
-    console.log(values);
     // return new Promise((resolve) => setTimeout(() => resolve(), 3000));
     await createUserWithEmailAndPassword(auth, values.email, values.password);
     await updateProfile(auth.currentUser, { displayName: values.fullname });

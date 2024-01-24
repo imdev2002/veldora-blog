@@ -26,10 +26,6 @@ const InfoColStyles = styled.div`
 
 const UserManagePage = () => {
   const [users, setUsers] = useState([]);
-  console.log(
-    "🚀 ~ file: UserManagePage.js:9 ~ UserManagePage ~ users:",
-    users
-  );
   useEffect(() => {
     const colRef = collection(db, "users");
     onSnapshot(colRef, (snapshot) => {

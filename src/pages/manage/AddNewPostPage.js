@@ -9,7 +9,6 @@ import { Textarea } from "components/textarea";
 // import PostCategory from "module/post/PostCategory";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
 import { postStatus } from "utils/constants";
 import Select from "react-select";
 import { Button } from "components/button";
@@ -39,7 +38,6 @@ Quill.register("modules/imageUploader", ImageUploader);
 
 const AddNewPostPage = () => {
   const { user } = useAuthStore((state) => state);
-  console.log("file: AddNewPostPage.js:35  AddNewPostPage  user:", user);
   const {
     control,
     watch,
@@ -89,7 +87,6 @@ const AddNewPostPage = () => {
           return { id: category.value, ...data };
         })
       );
-      console.log({ ...values, categories: categoriesSelected });
       const colRef = collection(db, "posts");
       await addDoc(colRef, {
         ...values,
@@ -163,9 +160,7 @@ const AddNewPostPage = () => {
       imageUploader: {
         // imgbbAPI
         upload: async (file) => {
-          console.log("upload: ~ file", file);
           const bodyFormData = new FormData();
-          console.log("upload: ~ bodyFormData", bodyFormData);
           bodyFormData.append("image", file);
           const response = await axios({
             method: "post",

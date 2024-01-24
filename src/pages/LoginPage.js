@@ -36,16 +36,15 @@ const LoginPage = () => {
   const handleLogin = async (values) => {
     try {
       if (!isValid) return;
-      console.log(values);
       await signInWithEmailAndPassword(auth, values.email, values.password);
       navigate("/");
     } catch (error) {
       toast.error(error.message || error);
     }
   };
-  console.log(user);
   useEffect(() => {
     if (user?.email) navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(user)]);
   return (
     <LayoutAuthentication>

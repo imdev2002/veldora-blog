@@ -6,6 +6,9 @@ const HomeSectionStyles = styled.div`
   max-width: ${(props) => (props.widthFull ? "100%" : "1280px")};
   margin: 0 auto;
   padding: 40px 0;
+  @media only screen and (max-width: 640px) {
+    padding: 40px 10px;
+  }
 `;
 
 const HomeSection = ({ widthFull, children }) => {

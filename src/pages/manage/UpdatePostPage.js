@@ -42,7 +42,6 @@ Quill.register("modules/imageUploader", ImageUploader);
 
 const UpdatePostPage = () => {
   const { user } = useAuthStore((state) => state);
-  console.log("file: AddNewPostPage.js:35  AddNewPostPage  user:", user);
   const {
     control,
     watch,
@@ -121,7 +120,6 @@ const UpdatePostPage = () => {
       const docRef = doc(db, "posts", postId);
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.data()) {
-        console.log(docSnapshot.data());
         reset(docSnapshot.data());
         setOptionValues(
           docSnapshot.data()?.categories?.map((category) => ({
@@ -147,9 +145,7 @@ const UpdatePostPage = () => {
       imageUploader: {
         // imgbbAPI
         upload: async (file) => {
-          console.log("upload: ~ file", file);
           const bodyFormData = new FormData();
-          console.log("upload: ~ bodyFormData", bodyFormData);
           bodyFormData.append("image", file);
           const response = await axios({
             method: "post",

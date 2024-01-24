@@ -10,6 +10,8 @@ import {
 import PostItemLarge from "module/post/PostItemLarge";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
 const HomeFeatureStyles = styled.div`
   @media only screen and (max-width: 1024px) {
@@ -50,14 +52,34 @@ const HomeFeature = () => {
       setPosts(result);
     });
   }, [width]);
-  if (posts.length <= 0 || width <= 640) return;
-  console.log(posts);
+  if (posts.length <= 0) return;
   return (
-    <HomeFeatureStyles>
-      {(width <= 1024 ? posts.slice(0, 2) : posts).map((post) => (
-        <PostItemLarge key={post.id} data={post}></PostItemLarge>
-      ))}
-    </HomeFeatureStyles>
+    <>
+      {width > 1024 ? (
+        <HomeFeatureStyles>
+          {posts.map((post) => (
+            <PostItemLarge key={post.id} data={post}></PostItemLarge>
+          ))}
+        </HomeFeatureStyles>
+      ) : (
+        <Swiper
+          style={{ width: "100%" }}
+          modules={[Navigation, Pagination, Scrollbar, A11y]}
+          slidesPerView={width <= 640 ? 1 : 2}
+          navigation
+          pagination={{ clickable: true }}
+          // scrollbar={{ draggable: true }}
+          // onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log("slide change")}
+        >
+          {posts.map((post) => (
+            <SwiperSlide>
+              <PostItemLarge key={post.id} data={post}></PostItemLarge>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
+    </>
   );
 };
 

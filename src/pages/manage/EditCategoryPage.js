@@ -9,7 +9,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import FormContainer from "layout/FormContainer";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import slugify from "slugify";
 import { categoryStatus } from "utils/constants";
 
@@ -27,7 +27,6 @@ const EditCategoryPage = () => {
   const [params] = useSearchParams();
   const id = params.get("id");
   const handleUpdateCategory = (values) => {
-    console.log(values);
     const colRef = doc(db, "category", id);
     updateDoc(colRef, {
       ...values,

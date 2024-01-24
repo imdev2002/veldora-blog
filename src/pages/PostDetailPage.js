@@ -3,12 +3,11 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAuthStore } from "store";
 import styled from "styled-components";
 import NotFoundPage from "./NotFoundPage";
 import PostThumbnail from "module/post/components/PostThumbnail";
-import PostCategory from "module/post/components/PostCategory";
 import PostMeta from "module/post/components/PostMeta";
 import AuthorBox from "module/post/components/AuthorBox";
 
@@ -92,9 +91,10 @@ const PostDetailStyles = styled.div`
       }
       &-heading {
         font-size: 26px;
+        padding: 24px;
       }
       &-content {
-        margin: 40px 0;
+        margin: 40px auto;
       }
     }
     .author {

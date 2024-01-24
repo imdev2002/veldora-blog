@@ -4,9 +4,14 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const PostMetaStyles = styled.div`
+  @media only screen and (max-width: 1024px) {
+    .post-auth {
+      display: none;
+    }
+  }
   font-size: 12px;
   display: flex;
-  column-gap: 18px;
+  column-gap: 8px;
   margin: 8px 0;
   color: ${(props) => props.color};
   .post-auth,
@@ -27,6 +32,13 @@ const PostMetaStyles = styled.div`
   }
   .post-date {
     column-gap: 6px;
+  }
+  @media only screen and (max-width: 640px) {
+    display: none;
+    margin: 2px 0;
+    .post-date {
+      display: none;
+    }
   }
 `;
 

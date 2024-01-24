@@ -1,5 +1,11 @@
 import { Button } from "components/button";
-import { IconClose, IconMenu, IconSearch } from "components/icons";
+import {
+  IconClose,
+  IconLogout,
+  IconMenu,
+  IconProfile,
+  IconSearch,
+} from "components/icons";
 import { useClickOutside } from "hooks/useClickOutSide";
 import React, { useRef } from "react";
 import { useState } from "react";
@@ -34,19 +40,39 @@ const HeaderStyles = styled.div`
       width: 40px;
       height: 40px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 100em;
+      position: relative;
+    }
+    img::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform: scale(1.2);
+      border: 2px solid red;
     }
     &-popover {
       position: absolute;
       top: calc(100% + 20px);
-      width: 240px;
-      height: 400px;
+      min-width: 180px;
+      padding: 12px 24px;
+      list-style: none;
       background: white;
       display: block;
       right: 0;
       border-radius: 8px;
       box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
         rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+      li {
+        border-bottom: 1px solid #ccc;
+        padding: 4px 0;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      li:last-child {
+        border: none;
+      }
     }
   }
   .header-l,
@@ -80,10 +106,10 @@ const HeaderStyles = styled.div`
     }
     .logo {
       &-img {
-        width: 40px;
+        width: 32px;
       }
       &-title {
-        font-size: 14px;
+        font-size: 18px;
       }
     }
     .menu {
@@ -91,6 +117,15 @@ const HeaderStyles = styled.div`
       height: 100dvh;
       width: 100%;
       padding: 16px;
+      li {
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        padding: 8px 0;
+        font-size: 16px;
+      }
+      li:last-child {
+        border: none;
+      }
     }
   }
 `;
@@ -117,6 +152,8 @@ const menuItems = [
     title: "Contact",
   },
 ];
+
+const ICON_SIZE = 18;
 
 const Header = () => {
   const { width } = useWindowSize();
@@ -200,40 +237,45 @@ const UserPopover = ({ show, setShow, data }) => {
       });
   };
   return show ? (
-    <div className="header-r__user-popover">
-      <div className="header__popover-item">
-        <Link to={`profile/${user.username}`}>Profile</Link>
-      </div>
-      <div className="header__popover-item" onClick={handleLogout}>
+    <ul className="header-r__user-popover">
+      <li className="header__popover-item">
+        <span>
+          <IconProfile size={ICON_SIZE} />
+        </span>
+        <Link to={`profile/${user.username}`}>My Profile</Link>
+      </li>
+      <li className="header__popover-item" onClick={handleLogout}>
+        <span>
+          <IconLogout size={ICON_SIZE} />
+        </span>
         <span>Logout</span>
-      </div>
-    </div>
+      </li>
+    </ul>
   ) : null;
 };
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div>
       {isOpen && (
         <MobileMenuStyles>
           <ul className="menu">
+            <span
+              onClick={() => setIsOpen(false)}
+              style={{
+                marginLeft: "auto",
+              }}
+            >
+              <IconClose />
+            </span>
             {menuItems.map((item) => (
               <li key={v4()}>
                 <NavLink to={item.url}>{item.title}</NavLink>
               </li>
             ))}
           </ul>
-          <span
-            onClick={() => setIsOpen(false)}
-            style={{
-              position: "absolute",
-              top: "16px",
-              right: "16px",
-            }}
-          >
-            <IconClose />
-          </span>
         </MobileMenuStyles>
       )}
       <span onClick={() => setIsOpen(true)}>

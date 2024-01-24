@@ -3,7 +3,6 @@ import {
   collection,
   limit,
   onSnapshot,
-  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -15,6 +14,7 @@ import styled from "styled-components";
 const PostsByCategoryStyles = styled.div`
   display: flex;
   column-gap: 24px;
+  gap: 8px;
   .post-large {
     flex: 1;
   }
@@ -24,11 +24,19 @@ const PostsByCategoryStyles = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
+  @media only screen and (max-width: 1024px) {
+    flex-direction: column;
+    .list-post__right {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      width: 100%;
+      gap: 6px;
+    }
+  }
 `;
 
 const PostsByCategory = () => {
   const [posts, setPosts] = useState([]);
-  console.log("file: PostsByCategory.js:24  PostsByCategory  posts:", posts);
   useEffect(() => {
     const colRef = collection(db, "posts");
     const q = query(

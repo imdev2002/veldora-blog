@@ -6,6 +6,7 @@ import PostCategory from "./components/PostCategory";
 import PostMeta from "./components/PostMeta";
 
 const PostMiniItemStyles = styled.div`
+  position: relative;
   display: flex;
   ${(props) =>
     props.reverse &&
@@ -25,11 +26,39 @@ const PostMiniItemStyles = styled.div`
   .post-auth {
     display: none;
   }
+  @media only screen and (max-width: 1024px) {
+    flex-direction: column;
+    gap: 4px;
+    height: unset;
+    .post-thumb {
+      width: 100%;
+      a {
+        width: 100%;
+      }
+    }
+    .post-content {
+      display: flex;
+      flex-direction: column;
+      & > span {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        font-size: 8px;
+      }
+      & > h3 {
+        margin: 0;
+        font-size: 12px;
+      }
+      & > div {
+        display: none;
+      }
+    }
+  }
 `;
 
 const PostItemMini = ({ isReverse = false, data, ...props }) => {
   if (!data) return;
-  const { title, slug, desc, thumbnail, createdAt, user, categories } = data;
+  const { title, slug, thumbnail, createdAt, user, categories } = data;
   const date = new Date(createdAt.seconds * 1000).toLocaleDateString("vi-VI", {
     year: "numeric",
     month: "long",

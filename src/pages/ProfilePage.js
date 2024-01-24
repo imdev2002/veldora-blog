@@ -60,7 +60,6 @@ const ProfilePageStyles = styled.div`
 const ProfilePage = () => {
   const { username } = useParams();
   const [info, setInfo] = useState({});
-  console.log("file: ProfilePage.js:63  ProfilePage  info:", info);
   // const [posts, setPosts] = useState();
   useEffect(() => {
     onSnapshot(

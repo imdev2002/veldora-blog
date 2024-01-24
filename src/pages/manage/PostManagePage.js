@@ -34,7 +34,6 @@ const PostManagePage = () => {
       setPosts(result);
     });
   }, []);
-  console.log(posts);
   return (
     <>
       <Heading>User Manager</Heading>

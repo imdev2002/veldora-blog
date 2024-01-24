@@ -17,6 +17,10 @@ const PostTitleStyles = styled.h3`
     css`
       color: props.color;
     `};
+  @media only screen and (max-width: 640px) {
+    font-size: 14px;
+    margin: 0;
+  }
 `;
 
 const PostTitle = ({ size = "18px", color, href = "#", children }) => {

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import PostCategory from "./components/PostCategory";
 import PostTitle from "./components/PostTitle";
@@ -8,7 +7,7 @@ import PostDescription from "./components/PostDescription";
 import PostThumbnail from "./components/PostThumbnail";
 
 const PostItemStyles = styled.div`
-  max-width: 340px;
+  /* max-width: 340px; */
   .post-content {
     font-size: 14px;
   }
@@ -16,7 +15,7 @@ const PostItemStyles = styled.div`
 
 const PostItem = ({ data, ...props }) => {
   if (!data) return;
-  const { title, slug, desc, thumbnail, createdAt, user, categories } = data;
+  const { title, slug, thumbnail, createdAt, user, categories } = data;
   const date = new Date(createdAt.seconds * 1000).toLocaleDateString("vi-VI", {
     year: "numeric",
     month: "long",

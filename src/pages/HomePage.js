@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
-import { signOut } from "firebase/auth";
-import { auth, db } from "config/firebase-config";
+import React from "react";
+import { db } from "config/firebase-config";
 import Heading from "components/layout/Heading";
 import PostItem from "module/post/PostItem";
 import PostsByCategory from "module/home/PostsByCategory";
@@ -18,12 +17,12 @@ import {
 } from "firebase/firestore";
 
 const RandomPostsStyles = styled.div`
-  @media only screen and (max-width: 640px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
+  @media only screen and (max-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const HomeMainStyles = styled.div`
@@ -36,16 +35,31 @@ const HomeMainStyles = styled.div`
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
-    .home__sidebar {
-      @media only screen and (max-width: 640px) {
-        iframe {
-          width: 240px;
-        }
-      }
-    }
   }
   .home__sidebar {
     width: 240px;
+  }
+  @media only screen and (max-width: 1024px) {
+    flex-direction: column;
+    .home__main {
+      flex: 1;
+      .home__recent-posts {
+        gap: 24px 8px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  }
+  @media only screen and (max-width: 640px) {
+    flex-direction: column;
+    .home__main {
+      flex: 1;
+      .home__recent-posts {
+        gap: 24px 8px;
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+    }
   }
 `;
 

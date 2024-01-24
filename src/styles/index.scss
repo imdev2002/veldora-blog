@@ -1,6 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap");
 @import "reset";
 @import "content";
+@import "swiper/css";
+@import "swiper/scss/navigation";
+@import "swiper/scss/pagination";
+@import "swiper/scss/scrollbar";
 
 *,
 *::before,
@@ -20,7 +24,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 img,
@@ -127,5 +131,31 @@ a {
     top: 0;
     background-color: white;
     z-index: 10;
+  }
+}
+
+// Custom Swiper
+.swiper {
+  &-button {
+    &-prev,
+    &-next {
+      width: 52px;
+      height: 52px;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border-radius: 100rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &::after {
+        font-size: 24px;
+      }
+    }
+    &-disabled {
+      display: none;
+    }
+  }
+  &-pagination-bullet-active {
+    background: white;
   }
 }

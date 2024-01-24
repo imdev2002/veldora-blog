@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "pages/LoginPage";
 import HomePage from "pages/HomePage";
@@ -21,8 +21,8 @@ import UpdatePostPage from "pages/manage/UpdatePostPage";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 function App() {
-  const { setCurrentUser } = useAuthStore((state) => state);
-  const location = useLocation();
+  const { user, setCurrentUser } = useAuthStore((state) => state);
+  console.log(user);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {

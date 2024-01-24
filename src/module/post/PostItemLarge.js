@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PostThumbnail from "./components/PostThumbnail";
 import PostCategory from "./components/PostCategory";
@@ -25,13 +25,16 @@ const PostItemLargeStyles = styled.div`
   .post-auth-name {
     color: white;
   }
+  @media only screen and (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 
 const PostItemLarge = (props) => {
   const { data, ...rest } = props;
 
   if (!data) return;
-  const { title, slug, desc, thumbnail, createdAt, user } = data;
+  const { title, slug, thumbnail, createdAt, user } = data;
   const date = new Date(createdAt.seconds * 1000).toLocaleDateString("vi-VI", {
     year: "numeric",
     month: "long",

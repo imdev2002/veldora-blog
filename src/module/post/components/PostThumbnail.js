@@ -34,6 +34,8 @@ const PostThumbnailStyles = styled.div`
       z-index: 1;
     }
   }
+  @media only screen and (max-width: 640px) {
+  }
 `;
 
 const PostThumbnail = ({ url, href = "#", height, children }) => {
