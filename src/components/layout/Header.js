@@ -55,7 +55,7 @@ const HeaderStyles = styled.div`
       position: absolute;
       top: calc(100% + 20px);
       min-width: 180px;
-      padding: 12px 24px;
+      padding: 12px;
       list-style: none;
       background: white;
       display: block;
@@ -65,13 +65,17 @@ const HeaderStyles = styled.div`
         rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
       li {
         border-bottom: 1px solid #ccc;
-        padding: 4px 0;
+        padding: 4px 12px;
         display: flex;
         gap: 4px;
         align-items: center;
-      }
-      li:last-child {
-        border: none;
+        border-radius: 6px;
+        &:hover {
+          background: #ccc;
+        }
+        &:last-child {
+          border: none;
+        }
       }
     }
   }

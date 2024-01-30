@@ -64,7 +64,7 @@ const PostManagePage = () => {
                   </span>
                 </PostInfoStyles>
               </td>
-              <td>{post.user.fullname}</td>
+              <td>{post.user?.fullname}</td>
               <td>{post.status}</td>
               <td>{post.status}</td>
               <td>

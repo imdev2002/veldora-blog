@@ -10,6 +10,7 @@ import NotFoundPage from "./NotFoundPage";
 import PostThumbnail from "module/post/components/PostThumbnail";
 import PostMeta from "module/post/components/PostMeta";
 import AuthorBox from "module/post/components/AuthorBox";
+import { formatDate } from "utils/formatDate";
 
 const PostDetailStyles = styled.div`
   padding-bottom: 100px;
@@ -147,7 +148,10 @@ const PostDetailPage = () => {
               {postInfo.category?.name}
             </PostCategory> */}
             <h1 className="post-heading">{postInfo.title}</h1>
-            <PostMeta></PostMeta>
+            <PostMeta
+              date={formatDate(postInfo.createdAt)}
+              auth={postInfo.user}
+            ></PostMeta>
             {/* Check if user role is ADMIN then can edit the post */}
             {/* {userInfo?.role === userRole.ADMIN && (
               <Link

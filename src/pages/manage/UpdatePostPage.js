@@ -128,10 +128,11 @@ const UpdatePostPage = () => {
           }))
         );
         setContent(docSnapshot.data()?.content || "");
+        setValue("status", docSnapshot.data()?.status);
       }
     }
     fetchData();
-  }, [postId, reset]);
+  }, [postId, reset, content]);
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -193,7 +194,6 @@ const UpdatePostPage = () => {
       setLoading(false);
     }
   };
-
   return (
     <FormContainer>
       <Heading>Add new post</Heading>

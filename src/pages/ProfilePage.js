@@ -72,7 +72,7 @@ const ProfilePage = () => {
     <ProfilePageStyles className="container">
       <div className="profile-cover"></div>
       <div className="profile-avt">
-        <img src={avatarDefault} alt="" />
+        <img src={info.avatar || avatarDefault} alt="" />
       </div>
       <div className="profile-info">
         <div className="profile-info__name">{info?.fullname}</div>

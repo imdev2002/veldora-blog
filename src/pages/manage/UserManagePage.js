@@ -14,6 +14,12 @@ const InfoColStyles = styled.div`
     padding: 6px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 100rem;
+    img {
+      border-radius: 100rem;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   img {
     width: 100%;

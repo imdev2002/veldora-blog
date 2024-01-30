@@ -60,6 +60,9 @@
   img {
     border-radius: 8px;
     margin: 20px 0;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
   }
   @media screen and (max-width: 1023.98px) {
     font-size: 14px;

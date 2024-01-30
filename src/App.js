@@ -22,7 +22,6 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 function App() {
   const { user, setCurrentUser } = useAuthStore((state) => state);
-  console.log(user);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
