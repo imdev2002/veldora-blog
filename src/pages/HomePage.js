@@ -73,8 +73,8 @@ const HomePage = () => {
     const q = query(
       colRef,
       where("status", "==", 1),
-      limit(postsPerPage),
-      orderBy("createdAt", "desc")
+      limit(postsPerPage)
+      // orderBy("createdAt", "desc")
     );
     onSnapshot(q, (snapshot) => {
       let result = [];
