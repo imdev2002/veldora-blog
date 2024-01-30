@@ -99,9 +99,19 @@ const HeaderStyles = styled.div`
   }
   .menu {
     display: flex;
+    align-items: center;
     list-style: none;
     column-gap: 20px;
     font-weight: 500;
+    li:last-child {
+      position: relative;
+      background: ${(props) => props.theme.primary};
+      padding: 8px 12px;
+      border-radius: 6px;
+      a {
+        color: white;
+      }
+    }
   }
   @media only screen and (max-width: 1024px) {
     padding: 0 18px;
@@ -154,6 +164,10 @@ const menuItems = [
   {
     url: "/contact",
     title: "Contact",
+  },
+  {
+    url: "/manage/add-post",
+    title: "Create a new post",
   },
 ];
 

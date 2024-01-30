@@ -12,6 +12,7 @@ import {
   collection,
   limit,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -63,13 +64,18 @@ const HomeMainStyles = styled.div`
   }
 `;
 
-const postsPerPage = 8;
+const postsPerPage = 9;
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const colRef = collection(db, "posts");
-    const q = query(colRef, where("status", "==", 1), limit(postsPerPage));
+    const q = query(
+      colRef,
+      where("status", "==", 1),
+      limit(postsPerPage),
+      orderBy("createdAt", "desc")
+    );
     onSnapshot(q, (snapshot) => {
       let result = [];
       snapshot.forEach((doc) => {
